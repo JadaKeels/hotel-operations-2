@@ -1,21 +1,47 @@
 public class Employee {
 
-    private int employeeId;
+    private String employeeId;
     private String name;
     private String department;
     private double payRate;
     private double hoursWorked;
+    private double punchInTime;
 
-    public Employee(int employeeId, String name, String department,
-                    double payRate, double hoursWorked) {
+    public Employee(String employeeId,
+                    String name,
+                    String department,
+                    double payRate) {
+
         this.employeeId = employeeId;
         this.name = name;
         this.department = department;
         this.payRate = payRate;
-        this.hoursWorked = hoursWorked;
+        this.hoursWorked = 0;
     }
 
-    public int getEmployeeId() {
+    public void punchIn(double time) {
+        punchInTime = time;
+        System.out.println(name + " punched in at " + time);
+    }
+
+    public void punchOut(double time) {
+
+        double hours = time - punchInTime;
+        hoursWorked += hours;
+
+        System.out.println(name + " punched out at " + time);
+        System.out.println("Hours worked this shift: " + hours);
+    }
+
+    public double getHoursWorked() {
+        return hoursWorked;
+    }
+
+    public double getTotalPay() {
+        return hoursWorked * payRate;
+    }
+
+    public String getEmployeeId() {
         return employeeId;
     }
 
@@ -29,22 +55,5 @@ public class Employee {
 
     public double getPayRate() {
         return payRate;
-    }
-
-    public double getHoursWorked() {
-        return hoursWorked;
-    }
-
-    public double getRegularHours() {
-        return Math.min(hoursWorked, 40);
-    }
-
-    public double getOvertimeHours() {
-        return Math.max(hoursWorked - 40, 0);
-    }
-
-    public double getTotalPay() {
-        return (getRegularHours() * payRate) +
-                (getOvertimeHours() * payRate * 1.5);
     }
 }
